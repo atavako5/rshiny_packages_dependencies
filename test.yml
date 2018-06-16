@@ -1,0 +1,39 @@
+version: '3.6'
+services:
+  ddnsShiny: #Change this line
+    image: 'dragoncube/google-domains-ddns'
+    container_name: ddnsShiny #Change this line
+    volumes: 
+      - type: bind
+        source: ../ddns/shiny #Change this line
+        target: /config/google-domains-ddns.conf
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+    networks:
+      - mainNetwork  
+  test:
+    image: rcustom 
+    container_name: test
+    ports:
+      - 4000:3838
+    expose:
+      - "3838"
+    networks:
+      - mainNetwork
+   
+    volumes:
+      - ./dependencies.sh:/home/dependencies.sh
+      - ./packageInstaller.R:/home/packageInstaller.R
+      - ./Libraries:/home/RLibz/
+      - ./serverLog:/var/log/
+      - ./Apps/server1/:/srv/shiny-server/
+    tty: yes
+
+    
+networks:
+  mainNetwork:
+    external: true
+    name: mainNetwork
+
+    ## docker run --rm -it -p 3838:3838 testingrocker /bin/bash
