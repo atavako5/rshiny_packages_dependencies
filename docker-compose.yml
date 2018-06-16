@@ -1,15 +1,10 @@
 version: '3.6'
 services:
-  toast:
+  rshiny:
     image: "blackdoom/rshiny_packages_dependencies"
-    container_name: toast
+    container_name: rshiny
     ports:
-      - 5885:3838
-    expose:
-      - "3838"
-    networks:
-      - mainNetwork
-   
+      - 3838:3838
     volumes:
       - ./dependencies.sh:/home/dependencies.sh
       - ./packageInstaller.R:/home/packageInstaller.R
@@ -19,9 +14,3 @@ services:
     tty: yes
 
     
-networks:
-  mainNetwork:
-    external: true
-    name: mainNetwork
-
-    ## docker run --rm -it -p 3838:3838 testingrocker /bin/bash
